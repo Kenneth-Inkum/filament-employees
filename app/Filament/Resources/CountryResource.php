@@ -22,14 +22,26 @@ class CountryResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
 
+    protected static ?string $navigationGroup = 'System Management';
+
+    // protected static ?string $navigationLabel = 'Cities';
+
+    // protected static ?int $navigationSort = 2;
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Card::make()
                 ->schema([
-                        TextInput::make('country_code'),
-                        TextInput::make('name'),
+                        TextInput::make('country_code')
+                        ->required()
+                        ->maxLength(3)
+                        ->label('Country Code'),
+                        TextInput::make('name')
+                        ->label('Name of Country')
+                        ->required()
+                        ->maxLength(255),
                 ])
             ]);
     }
@@ -38,9 +50,9 @@ class CountryResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('id')->sortable(),
-                TextColumn::make('name')->sortable()->searchable(),
-                TextColumn::make('country_code')->sortable()->searchable(),
+                // TextColumn::make('id')->sortable(),
+                TextColumn::make('name')->sortable()->searchable()->label('Name of Country'),
+                TextColumn::make('country_code')->sortable()->searchable()->label('Country Code'),
                 TextColumn::make('created_at')->dateTime(),
             ])
             ->filters([

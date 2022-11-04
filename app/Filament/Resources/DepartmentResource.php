@@ -23,13 +23,22 @@ class DepartmentResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
 
+    protected static ?string $navigationGroup = 'System Management';
+
+    // protected static ?string $navigationLabel = 'Cities';
+
+    // protected static ?int $navigationSort = 2;
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Card::make()
                 ->schema([
-                    TextInput::make('name'),
+                    TextInput::make('name')
+                    ->label('Department Name')
+                    ->required()
+                    ->maxLength(255),
                 ])
             ]);
     }
@@ -38,8 +47,8 @@ class DepartmentResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('id')->sortable(),
-                TextColumn::make('name')->sortable()->searchable(),
+                // TextColumn::make('id')->sortable(),
+                TextColumn::make('name')->sortable()->searchable()->label('Department Name'),
                 TextColumn::make('created_at')->dateTime(),
             ])
             ->filters([

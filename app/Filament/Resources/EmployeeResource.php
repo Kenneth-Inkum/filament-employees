@@ -28,6 +28,12 @@ class EmployeeResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
 
+    protected static ?string $navigationGroup = 'Employee Management';
+
+    // protected static ?string $navigationLabel = 'Cities';
+
+    // protected static ?int $navigationSort = 1;
+
     public static function form(Form $form): Form
     {
         return $form
@@ -35,12 +41,14 @@ class EmployeeResource extends Resource
                 Card::make()
                     ->schema([
                         Select::make('country_id')
-                            ->label('country')
+                            ->label('Country')
                             ->options(Country::all()->pluck('name', 'id')->toArray())
+                            ->required()
                             ->reactive()
                             ->afterStateUpdated(fn (callable $set) => $set('state_id', null,)),
                             Select::make('state_id')
                             ->label('State')
+                            ->required()
                             ->options(function (callable $get){
                                 $country = Country::find($get('country_id'));
                                 if(!$country){
@@ -52,6 +60,7 @@ class EmployeeResource extends Resource
                             ->afterStateUpdated(fn (callable $set) => $set('city_id', null,)),
                             Select::make('city_id')
                             ->label('City')
+                            ->required()
                             ->options(function (callable $get){
                                 $state = State::find($get('state_id'));
                                 if(!$state){
@@ -66,13 +75,33 @@ class EmployeeResource extends Resource
                         // Select::make('city_id')
                         //     ->Relationship('city', 'name')->required(),
                         Select::make('department_id')
-                            ->Relationship('department', 'name')->required(),
-                        TextInput::make('first_name')->required(),
-                        TextInput::make('last_name')->required(),
-                        TextInput::make('address')->required(),
-                        TextInput::make('zip_code')->required(),
-                        DatePicker::make('birthday')->required(),
-                        DatePicker::make('date_hired')->required(),
+                            ->Relationship('department', 'name')
+                            ->required(),
+                        TextInput::make('first_name')
+                            ->required()
+                            ->label('First Name')
+                            ->maxLength(255),
+                        TextInput::make('last_name')
+                            ->required()
+                            ->label('Last Name')
+                            ->maxLength(255),
+                        TextInput::make('address')
+                            ->required()
+                            ->maxLength(255),
+                        TextInput::make('zip_code')
+                            ->required()
+                            ->label('Zip Code')
+                            ->maxLength(5),
+                        DatePicker::make('birthday')
+                            ->label('Date of Birth')
+                            ->minDate(now()->subYears(120))
+                            ->maxDate(now())
+                            ->required(),
+                        DatePicker::make('date_hired')
+                            ->label('Date Hired')
+                            ->minDate(now()->subYears(70))
+                            ->maxDate(now())
+                            ->required(),
                     ])
             ]);
     }
@@ -81,17 +110,17 @@ class EmployeeResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('id')->sortable(),
+                // TextColumn::make('id')->sortable(),
                 // TextColumn::make('country.name')->sortable(),
                 // TextColumn::make('state.name')->sortable()->searchable(),
-                // TextColumn::make('city.name')->sortable()->searchable(),
-                // TextColumn::make('department.name')->sortable()->searchable(),
-                TextColumn::make('first_name')->sortable()->searchable(),
-                TextColumn::make('last_name')->sortable()->searchable(),
+                TextColumn::make('first_name')->sortable()->searchable()->label('First Name'),
+                TextColumn::make('last_name')->sortable()->searchable()->label('Last Name'),
+                TextColumn::make('department.name')->sortable()->searchable(),
+                TextColumn::make('city.name')->sortable()->searchable()->label('City'),
                 TextColumn::make('address')->sortable()->searchable(),
-                TextColumn::make('zip_code')->sortable()->searchable(),
-                TextColumn::make('birthday')->sortable()->searchable(),
-                TextColumn::make('date_hired')->sortable()->searchable(),
+                TextColumn::make('zip_code')->sortable()->searchable()->label('Zip Code'),
+                TextColumn::make('birthday')->sortable()->searchable()->label('Date of Birth'),
+                TextColumn::make('date_hired')->sortable()->searchable()->label('Date Hired'),
                 TextColumn::make('created_at')->sortable()->searchable(),
 
             ])

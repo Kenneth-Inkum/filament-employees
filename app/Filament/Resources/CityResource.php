@@ -23,6 +23,12 @@ class CityResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
 
+    protected static ?string $navigationGroup = 'System Management';
+
+    // protected static ?string $navigationLabel = 'Cities';
+
+    // protected static ?int $navigationSort = 3;
+
     public static function form(Form $form): Form
     {
         return $form
@@ -30,8 +36,13 @@ class CityResource extends Resource
                 Card::make()
                 ->schema([
                     Select::make('state_id',)
-                        ->Relationship('state', 'name'),
-                    TextInput::make('name'),
+                        ->relationship('state', 'name')
+                        ->label('State/Region')
+                        ->required(),
+                    TextInput::make('name')
+                        ->label('Name of City')
+                        ->required()
+                        ->maxLength(255),
                 ])
         ]);
 
@@ -41,9 +52,9 @@ class CityResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('id')->sortable(),
-                TextColumn::make('name')->sortable()->searchable(),
-                TextColumn::make('state.name')->sortable(),
+                // TextColumn::make('id')->sortable(),
+                TextColumn::make('name')->sortable()->searchable()->label('Name of City'),
+                TextColumn::make('state.name')->sortable()->label('State/Region'),
                 TextColumn::make('created_at')->sortable(),
             ])
             ->filters([
