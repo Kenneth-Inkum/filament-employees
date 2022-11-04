@@ -14,19 +14,21 @@ use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\CountryResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\CountryResource\RelationManagers;
+use App\Filament\Resources\CountryResource\RelationManagers\EmployeesRelationManager;
+use App\Filament\Resources\CountryResource\RelationManagers\StatesRelationManager;
 use Filament\Tables\Columns\TextColumn;
 
 class CountryResource extends Resource
 {
     protected static ?string $model = Country::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'heroicon-o-flag';
 
     protected static ?string $navigationGroup = 'System Management';
 
     // protected static ?string $navigationLabel = 'Cities';
 
-    // protected static ?int $navigationSort = 2;
+    protected static ?int $navigationSort = 3;
 
     public static function form(Form $form): Form
     {
@@ -69,7 +71,8 @@ class CountryResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            EmployeesRelationManager::class,
+            StatesRelationManager::class,
         ];
     }
 

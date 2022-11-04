@@ -16,18 +16,19 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\DepartmentResource\Pages;
 use App\Filament\Resources\DepartmentResource\RelationManagers;
+use App\Filament\Resources\DepartmentResource\RelationManagers\EmployeesRelationManager;
 
 class DepartmentResource extends Resource
 {
     protected static ?string $model = Department::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'heroicon-o-cursor-click';
 
     protected static ?string $navigationGroup = 'System Management';
 
     // protected static ?string $navigationLabel = 'Cities';
 
-    // protected static ?int $navigationSort = 2;
+    protected static ?int $navigationSort = 6;
 
     public static function form(Form $form): Form
     {
@@ -65,7 +66,7 @@ class DepartmentResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            EmployeesRelationManager::class,
         ];
     }
 

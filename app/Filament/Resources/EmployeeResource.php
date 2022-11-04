@@ -26,13 +26,13 @@ class EmployeeResource extends Resource
 {
     protected static ?string $model = Employee::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'heroicon-o-briefcase';
 
     protected static ?string $navigationGroup = 'Employee Management';
 
     // protected static ?string $navigationLabel = 'Cities';
 
-    // protected static ?int $navigationSort = 1;
+    protected static ?int $navigationSort = 2;
 
     public static function form(Form $form): Form
     {
@@ -67,7 +67,8 @@ class EmployeeResource extends Resource
                                     return State::all()->pluck('name','id');
                                 }
                                 return $state->city->pluck('name','id');
-                            }),
+                            })
+                            ->reactive(),
                         // Select::make('country_id')
                         //     ->Relationship('country', 'name')->required(),
                         // Select::make('state_id')

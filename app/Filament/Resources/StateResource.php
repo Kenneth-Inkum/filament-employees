@@ -17,18 +17,20 @@ use App\Filament\Resources\StateResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Database\Eloquent\Factories\Relationship;
 use App\Filament\Resources\StateResource\RelationManagers;
+use App\Filament\Resources\StateResource\RelationManagers\CitiesRelationManager;
+use App\Filament\Resources\StateResource\RelationManagers\EmployeesRelationManager;
 
 class StateResource extends Resource
 {
     protected static ?string $model = State::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'heroicon-o-location-marker';
 
     protected static ?string $navigationGroup = 'System Management';
 
-    // protected static ?string $navigationLabel = 'Cities';
+    protected static ?string $navigationLabel = 'States/Regions';
 
-    // protected static ?int $navigationSort = 2;
+    protected static ?int $navigationSort = 4;
 
     public static function form(Form $form): Form
     {
@@ -62,6 +64,7 @@ class StateResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                // Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
@@ -71,7 +74,8 @@ class StateResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            EmployeesRelationManager::class,
+            CitiesRelationManager::class,
         ];
     }
 
