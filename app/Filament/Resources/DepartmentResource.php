@@ -10,6 +10,7 @@ use Filament\Resources\Table;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Card;
 use Filament\Forms\Components\Select;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -28,8 +29,6 @@ class DepartmentResource extends Resource
             ->schema([
                 Card::make()
                 ->schema([
-                    Select::make('state_id',)
-                        ->Relationship('state', 'name'),
                     TextInput::make('name'),
                 ])
             ]);
@@ -39,7 +38,9 @@ class DepartmentResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('id')->sortable(),
+                TextColumn::make('name')->sortable()->searchable(),
+                TextColumn::make('created_at')->dateTime(),
             ])
             ->filters([
                 //
