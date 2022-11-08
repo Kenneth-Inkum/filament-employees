@@ -23,7 +23,8 @@ class EmployeeStatsOverview extends BaseWidget
                 ->description('5% increase')
                 ->color('success'),
 
-            Card::make($gh->name. ' Employees', $gh->employees_count)
+            // Card::make($gh->name. ' Employees', $gh->employees_count)
+            Card::make('Ghana Employees', $gh ? $gh->employees_count : 0)
             ->chart([7, 2, 10, 3, 15, 4, 17])
             ->color('success'),
 
